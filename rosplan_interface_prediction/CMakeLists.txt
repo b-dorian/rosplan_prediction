@@ -9,6 +9,7 @@ find_package(catkin REQUIRED COMPONENTS
   rosplan_knowledge_msgs
   squirrel_prediction_msgs
   diagnostic_msgs
+  rosplan_dispatch_msgs
 )
 
 ###################################

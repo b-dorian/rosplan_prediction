@@ -9,15 +9,25 @@
 #include <std_srvs/Empty.h>
 #include <diagnostic_msgs/KeyValue.h>
 
-#include <rosplan_knowledge_msgs/GetDomainTypeService.h>
-#include <rosplan_knowledge_msgs/GetDomainAttributeService.h>
-#include <rosplan_knowledge_msgs/GetInstanceService.h>
-#include <rosplan_knowledge_msgs/GetAttributeService.h>
+#include "rosplan_dispatch_msgs/ActionFeedback.h"
+#include "rosplan_dispatch_msgs/ActionDispatch.h"
+#include "rosplan_knowledge_msgs/DomainFormula.h"
+#include "rosplan_knowledge_msgs/KnowledgeItem.h"
+//#include "rosplan_knowledge_msgs/KnowledgeUpdateService.h"
+//#include "rosplan_knowledge_msgs/KnowledgeUpdateServiceArray.h"
+#include "rosplan_knowledge_msgs/GetDomainOperatorDetailsService.h"
+#include "rosplan_knowledge_msgs/GetDomainPredicateDetailsService.h"
+#include "rosplan_knowledge_msgs/GetDomainNameService.h"
+#include "rosplan_knowledge_msgs/GetDomainTypeService.h"
+#include "rosplan_knowledge_msgs/GetDomainAttributeService.h"
+#include "rosplan_knowledge_msgs/GetInstanceService.h"
+#include "rosplan_knowledge_msgs/GetAttributeService.h"
+#include "rosplan_knowledge_msgs/GetMetricService.h"
+#include "rosplan_knowledge_msgs/KnowledgeUpdateService.h"
+#include "rosplan_knowledge_msgs/KnowledgeUpdateServiceArray.h"
+#include "rosplan_knowledge_msgs/GetDomainOperatorDetailsService.h"
+#include "rosplan_knowledge_msgs/GetDomainPredicateDetailsService.h"
 
-#include <rosplan_knowledge_msgs/KnowledgeUpdateService.h>
-#include <rosplan_knowledge_msgs/KnowledgeUpdateServiceArray.h>
-#include <rosplan_knowledge_msgs/DomainFormula.h>
-#include <rosplan_knowledge_msgs/KnowledgeItem.h>
 
 #include <squirrel_prediction_msgs/RecommendRelations.h>
 
@@ -54,9 +64,10 @@ namespace KCL_rosplan {
 		ros::ServiceClient get_domain_type_client;
 		ros::ServiceClient get_domain_attribute_client;
 		ros::ServiceClient get_instance_client;
-		ros::ServiceClient get_attribute_client;
+		ros::ServiceClient get_propositions_client;
 		ros::ServiceClient knowledge_update_array_client;
 		ros::ServiceClient recommender_client;
+
 
 		/* check methods */
 		bool propTrue(int a, int column);

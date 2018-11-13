@@ -8,11 +8,11 @@ namespace KCL_rosplan {
 	 */
 	RPPrediction::RPPrediction(ros::NodeHandle& nh) {
 		// KB clients
-		get_domain_type_client = nh.serviceClient<rosplan_knowledge_msgs::GetDomainTypeService>("/kcl_rosplan/get_domain_types");
-		get_domain_attribute_client = nh.serviceClient<rosplan_knowledge_msgs::GetDomainAttributeService>("/kcl_rosplan/get_domain_predicates");
-		get_instance_client = nh.serviceClient<rosplan_knowledge_msgs::GetInstanceService>("/kcl_rosplan/get_current_instances");
-		get_attribute_client = nh.serviceClient<rosplan_knowledge_msgs::GetAttributeService>("/kcl_rosplan/get_current_knowledge");
-		knowledge_update_array_client = nh.serviceClient<rosplan_knowledge_msgs::KnowledgeUpdateServiceArray>("/kcl_rosplan/update_knowledge_base_array");
+		get_domain_type_client = nh.serviceClient<rosplan_knowledge_msgs::GetDomainTypeService>("rosplan_knowledge_base/domain/types");
+		get_domain_attribute_client = nh.serviceClient<rosplan_knowledge_msgs::GetDomainAttributeService>("/rosplan_knowledge_base/domain/operators");
+		get_instance_client = nh.serviceClient<rosplan_knowledge_msgs::GetInstanceService>("/rosplan_knowledge_base/state/instances");
+		get_propositions_client = nh.serviceClient<rosplan_knowledge_msgs::GetAttributeService>("/rosplan_knowledge_base/state/propositions");
+		knowledge_update_array_client = nh.serviceClient<rosplan_knowledge_msgs::KnowledgeUpdateServiceArray>("/rosplan_knowledge_base/update_array");
 		recommender_client = nh.serviceClient<squirrel_prediction_msgs::RecommendRelations>("/squirrel_relations_prediction");
 
 		upper_threshold_confidence = 0.60f;
@@ -89,7 +89,7 @@ namespace KCL_rosplan {
 			// fetch propositions of predicate
 			rosplan_knowledge_msgs::GetAttributeService propSrv;
 			propSrv.request.predicate_name = pit->name;
-			get_attribute_client.call(propSrv);
+			get_propositions_client.call(propSrv);
 
 			props.insert(std::pair<std::string, std::vector<rosplan_knowledge_msgs::KnowledgeItem> >(pit->name, propSrv.response.attributes));
 		}
@@ -314,7 +314,7 @@ namespace KCL_rosplan {
 		ROS_INFO("KCL: (prediction) Reading data from csv file");
 
 		rosplan_knowledge_msgs::KnowledgeUpdateServiceArray srv;
-		srv.request.update_type = rosplan_knowledge_msgs::KnowledgeUpdateServiceArray::Request::ADD_KNOWLEDGE;
+		srv.request.update_type.push_back(rosplan_knowledge_msgs::KnowledgeUpdateServiceArray::Request::ADD_KNOWLEDGE);
 
 		std::stringstream ss;
 		ss << data_path << "/predicted_missing_known_full.csv";
